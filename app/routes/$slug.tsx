@@ -1,14 +1,31 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getPageContent, getPageInfo, findPageIdBySlug } from "~/utils/notion";
+import { getPageContent, getPageInfo, getAllPosts } from "~/utils/notion";
 import Markdown from 'markdown-to-jsx';
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+
+interface PageContent {
+  parent: string;
+}
+
+interface PageInfo {
+  title: string;
+  date: string;
+}
+
+// データベースからリンクに該当するページIDを検索する関数
+async function findPageIdBySlug(databaseId: string, slug: string): Promise<string | null> {
+  const posts = await getAllPosts(databaseId);
+  const post = posts.find(p => p.slug === slug.toLowerCase());
+  return post ? post.id : null;
+}
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { slug } = params;
   if (!slug) throw new Response("Not Found", { status: 404 });
 
-  const pageId = await findPageIdBySlug('b16388157cb04c55b7584c59a2aa5b63', slug);
+  const databaseId = 'b16388157cb04c55b7584c59a2aa5b63';
+  const pageId = await findPageIdBySlug(databaseId, slug);
   if (!pageId) throw new Response("Not Found", { status: 404 });
 
   const pageContents = await getPageContent(pageId);
