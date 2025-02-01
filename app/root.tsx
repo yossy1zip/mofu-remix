@@ -9,6 +9,7 @@ import {
 
 import NotFound from "~/components/NotFound";
 import styles from "~/styles/global.css?url";
+import { getTopNews } from "~/components/getNews";
 
 export const links = () => [
   { rel: "stylesheet", href: styles },

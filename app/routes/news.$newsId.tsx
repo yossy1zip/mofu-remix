@@ -1,27 +1,13 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getPageContent, getPageInfo, getAllPosts } from "~/utils/notion";
-import Markdown from 'markdown-to-jsx';
+import { getPageContent, getPageInfo, getAllNews, getNewsByNewsId } from "~/utils/notion";
 import DefaultLayout from "~/components/layouts/DefaultLayout";
-
-interface PageContent {
-  parent: string;
-}
-
-interface PageInfo {
-  title: string;
-  date: string;
-  author?: string;
-}
-
-interface Post {
-  id: string;
-  newsId?: string;
-}
+import MarkdownContent from "~/components/MarkdownContent";
+import { PageContent, PageInfo } from '~/types/notion';
 
 async function findPageIdByNewsId(databaseId: string, newsId: string): Promise<string | null> {
-  const posts = await getAllPosts(databaseId);
-  const post = posts.find(p => p.newsId === newsId);
+  const posts = await getAllNews(databaseId);
+  const post = posts.find(p => p.newsId === newsId && !p.private);
   return post ? post.id : null;
 }
 
@@ -30,69 +16,64 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!newsId) throw new Response("Not Found", { status: 404 });
 
   const databaseId = 'c2a9cd9428e742c19f559f7363a581bd';
-  const pageId = await findPageIdByNewsId(databaseId, newsId);
+  const post = await getNewsByNewsId(databaseId, newsId);
   
-  if (!pageId) throw new Response("Not Found", { status: 404 });
+  if (!post) throw new Response("Not Found", { status: 404 });
 
-  const [pageContents, pageInfo] = await Promise.all([
-    getPageContent(pageId),
-    getPageInfo(pageId)
-  ]);
+  try {
+    const [pageContents, pageInfo] = await Promise.all([
+      getPageContent(post.id),
+      getPageInfo(post.id)
+    ]);
 
-  return json({ pageContents, pageInfo });
+    return json({ pageContents, pageInfo });
+  } catch (error) {
+    throw new Response("Not Found", { status: 404 });
+  }
 };
 
 export default function NewsArticle() {
-  const { pageContents, pageInfo } = useLoaderData<{
-    pageContents: PageContent[];
-    pageInfo: PageInfo;
+  const { pageContents, pageInfo } = useLoaderData<{ 
+    pageContents: PageContent[], 
+    pageInfo: PageInfo 
   }>();
+  const content = pageContents.map(content => content.parent).join('\n');
 
   return (
     <DefaultLayout>
       <div className="bg-white rounded-lg shadow p-6">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{pageInfo.title}</h1>
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>{pageInfo.date}</span>
-            {pageInfo.author && <span>{pageInfo.author}</span>}
+        <header className="text-center mb-10 border-b">
+          {/* ニュースセクション追加 */}
+          <div className="mb-6">
+            <p className="text-sm font-semibold text-gray-500 mb-2">ニュース</p>
+            <div className="flex justify-center gap-4 text-sm text-gray-600">
+              <time>{pageInfo.postDate}</time>
+              {pageInfo.categories && (
+                <div className="flex gap-2">
+                  {pageInfo.categories.map(category => (
+                    <span key={category} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded">
+                      {category}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {pageInfo.tags && (
+                <div className="flex gap-2">
+                  {pageInfo.tags.map(tag => (
+                    <span key={tag} className="text-gray-500">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+          {/* 既存のタイトル */}
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 relative inline-block">
+            <span className="relative z-10">{pageInfo.title}</span>
+          </h1>
         </header>
-        <main className="prose prose-lg max-w-none">
-          {pageContents.map((content, index) => {
-            const formattedMarkdown = content.parent.replace(/\n/g, '  \n');
-            return (
-              <div key={index} className="mb-6">
-                <Markdown
-                  options={{
-                    overrides: {
-                      ol: {
-                        component: 'ol',
-                        props: {
-                          className: 'list-decimal list-inside pl-6 mb-4'
-                        }
-                      },
-                      li: {
-                        component: 'li',
-                        props: {
-                          className: 'mb-2'
-                        }
-                      },
-                      img: {
-                        component: 'img',
-                        props: {
-                          className: 'max-w-full h-auto my-6'
-                        }
-                      }
-                    }
-                  }}
-                >
-                  {formattedMarkdown}
-                </Markdown>
-              </div>
-            );
-          })}
-        </main>
+        <MarkdownContent content={content} />
       </div>
     </DefaultLayout>
   );

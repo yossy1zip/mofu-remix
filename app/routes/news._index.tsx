@@ -2,12 +2,10 @@ import { getTopNews } from "~/components/getNews";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+import { NewsPost } from '~/types/notion';
 
-interface NewsItem {
-  id: string;
-  title: string;
-  postDate?: string;
-  newsId?: string;
+interface LoaderData {
+  news: NewsPost[];
 }
 
 export const loader: LoaderFunction = async () => {
@@ -16,8 +14,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function News() {
-  const { news } = useLoaderData<{ news: NewsItem[] }>();
-  console.log('News data:', news); // データの確認用
+  const { news } = useLoaderData<LoaderData>();
 
   return (
     <DefaultLayout>
@@ -27,9 +24,12 @@ export default function News() {
         </div>
         <div className="space-y-4">
           {news.map((item) => (
-            <div key={item.newsId || item.id} className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+            <div key={item.id} className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
               <Link to={`/news/${item.newsId}`} className="text-gray-800 hover:text-gray-600">
-                <small className="text-gray-500">{item.postDate}</small>
+                <div className="flex justify-between items-center">
+                  <small className="text-gray-500">{item.postDate}</small>
+                  {item.author && <small className="text-gray-500">投稿者: {item.author}</small>}
+                </div>
                 <div className="mt-1">{item.title}</div>
               </Link>
             </div>
