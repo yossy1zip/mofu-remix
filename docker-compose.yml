@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "5173:5173" # ホストマシンの3000ポートをコンテナの3000ポートにマッピング
+    environment:
+      NODE_ENV: development
+      PORT: 3000 # アプリケーションが使用するポートを指定
+    command: ["npm", "run", "dev", "--", "--host"] # SSRを有効化した状態で開発用サーバーを起動
+    volumes:
+      - .:/app # ソースコードをマウント
+      - /app/node_modules # コンテナ内のnode_modulesを分離
+    working_dir: /app # コンテナ内での作業ディレクトリ
+    stdin_open: true
+    tty: true

@@ -1,0 +1,76 @@
+import { Link } from "@remix-run/react";
+
+export default function Sidebar() {
+    return (
+        <div className="space-y-4 sticky top-4">
+            {/* サーバー情報 */}
+            <div className="bg-white rounded-lg shadow p-4">
+                <p className="text-gray-700">ログインアドレス: mofucraft.net</p>
+                <p className="text-gray-700">おすすめバージョン: 1.20.x</p>
+            </div>
+
+            {/* イベント */}
+            <div className="bg-white rounded-lg shadow">
+                <h2 className="p-4 font-bold border-b">Events</h2>
+                <div className="p-4">
+                    準備中
+                    {/* <DiscordEvents /> */}
+                </div>
+            </div>
+
+            {/* ステータス */}
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white rounded-lg shadow">
+                    <h2 className="p-4 font-bold border-b">Status</h2>
+                    <div className="p-4">
+                        準備中
+                    </div>
+                </div>
+                <div className="bg-white rounded-lg shadow">
+                    <h2 className="p-4 font-bold border-b">準備中</h2>
+                    <div className="p-4">
+                        準備中
+                    </div>
+                </div>
+            </div>
+
+            {/* News */}
+            <div className="bg-white rounded-lg shadow">
+                <h2 className="p-4 font-bold border-b">
+                    <Link to="/news" className="hover:text-blue-500 text-decoration-none">News</Link>
+                </h2>
+                {/* {await getTopNews()} */}
+            </div>
+
+            {/* Links */}
+            <div className="bg-white rounded-lg shadow">
+                <h2 className="p-4 font-bold border-b">Links</h2>
+                <div className="p-4">
+                    <Link to="//example.com" className="text-blue-500 hover:underline">非公式Wiki</Link>
+                </div>
+            </div>
+
+            {/* Twitter */}
+            <div className="bg-white rounded-lg shadow">
+                <h2 className="p-4 font-bold border-b">Twitter @mofucraft</h2>
+                <div className="p-4">
+                    準備中
+                </div>
+            </div>
+
+            {/* Solo Server */}
+            <div id="solo" className="bg-white rounded-lg shadow">
+                <h2 className="p-4 font-bold border-b">Solo Server</h2>
+                <div className="p-4 text-center">
+                    <p>シングルプレイなマルチプレイ！？</p>
+                    <div id="solo-icon" className="my-4">
+                        <Link to="//solo.mofucraft.net">
+                            <img src="//mofucraft.net/image/Grass.png" alt="Solo Server" className="mx-auto" />
+                        </Link>
+                    </div>
+                    <p>↑↑ 気になったらクリック！ ↑↑</p>
+                </div>
+            </div>
+        </div>
+    );
+}
