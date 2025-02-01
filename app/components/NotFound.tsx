@@ -1,4 +1,5 @@
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
@@ -13,6 +14,9 @@ export default function NotFound() {
           </p>
           <p className="text-gray-600 text-lg mt-2">
             URLに間違いがないかご確認ください( ˘ω˘ )
+          </p>
+          <p className="text-gray-600 text-lg mt-2">
+            <Link to="/">トップへ戻る</Link>
           </p>
         </div>
       </div>

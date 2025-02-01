@@ -5,6 +5,8 @@ interface Post {
     id: string;
     postDate?: string;
     title: string;
+    newsId?: string;
+    private?: boolean;
 }
 
 function formatDate(dateString: string | undefined): string {

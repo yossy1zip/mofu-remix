@@ -1,15 +1,44 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getPageContent, getPageInfo } from "~/utils/notion";
+import { getPageContent, getPageInfo, getAllPosts } from "~/utils/notion";
 import Markdown from 'markdown-to-jsx';
 import DefaultLayout from "~/components/layouts/DefaultLayout";
 
+interface PageContent {
+  parent: string;
+}
+
+interface PageInfo {
+  title: string;
+  date: string;
+  author?: string;
+}
+
+interface Post {
+  id: string;
+  newsId?: string;
+}
+
+async function findPageIdByNewsId(databaseId: string, newsId: string): Promise<string | null> {
+  const posts = await getAllPosts(databaseId);
+  const post = posts.find(p => p.newsId === newsId);
+  return post ? post.id : null;
+}
+
 export const loader: LoaderFunction = async ({ params }) => {
-  if (!params.id) throw new Response("Not Found", { status: 404 });
+  const { newsId } = params;
+  if (!newsId) throw new Response("Not Found", { status: 404 });
+
+  const databaseId = 'c2a9cd9428e742c19f559f7363a581bd';
+  const pageId = await findPageIdByNewsId(databaseId, newsId);
   
-  const pageContents = await getPageContent(params.id);
-  const pageInfo = await getPageInfo(params.id);
-  
+  if (!pageId) throw new Response("Not Found", { status: 404 });
+
+  const [pageContents, pageInfo] = await Promise.all([
+    getPageContent(pageId),
+    getPageInfo(pageId)
+  ]);
+
   return json({ pageContents, pageInfo });
 };
 

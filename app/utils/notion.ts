@@ -54,6 +54,7 @@ export async function getAllPosts(databaseId: string) {
             postDate: post.properties.postDate?.date?.start,
             date: post.properties.date?.date.start,
             private: post.properties.private?.boolean,
+            newsId: post.properties.newsId?.number,
             // multi_selectプロパティの取り出し（例：types）
             //const types = post.properties.types.multi_select.map((item:any) => item.name);
 
@@ -68,30 +69,6 @@ export async function getAllPosts(databaseId: string) {
     }
 }
 
-/*
-export const getPage = async (pageId) => {
-    return await notion.pages.retrieve({page_id: pageId});
-};
-*/
-
-/*
-export const getBlocks = async (blockId) => {
-    const blocks = [];
-    let cursor;
-    while (true) {
-        const { results, next_cursor } = await notion.blocks.children.list({
-            start_cursor: cursor,
-            block_id: blockId,
-        });
-        blocks.push(...results);
-        if (!next_cursor) {
-            break;
-        }
-        cursor = next_cursor;
-    }
-    return blocks;
-};
-*/
 
 //個々のページの詳細を取得
 interface NotionPostInfo {

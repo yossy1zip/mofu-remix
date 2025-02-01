@@ -7,6 +7,7 @@ interface NewsItem {
   id: string;
   title: string;
   postDate?: string;
+  newsId?: string;
 }
 
 export const loader: LoaderFunction = async () => {
@@ -16,6 +17,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function News() {
   const { news } = useLoaderData<{ news: NewsItem[] }>();
+  console.log('News data:', news); // データの確認用
 
   return (
     <DefaultLayout>
@@ -25,9 +27,9 @@ export default function News() {
         </div>
         <div className="space-y-4">
           {news.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
-              <Link to={`/news/${item.id}`} className="text-gray-800 hover:text-gray-600">
-                <small className="text-gray-500"></small>
+            <div key={item.newsId || item.id} className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+              <Link to={`/news/${item.newsId}`} className="text-gray-800 hover:text-gray-600">
+                <small className="text-gray-500">{item.postDate}</small>
                 <div className="mt-1">{item.title}</div>
               </Link>
             </div>
