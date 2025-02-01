@@ -13,7 +13,7 @@ interface PageInfo {
   date: string;
 }
 
-// データベースからリンクに該当するページIDを検索する関数
+// データベースからリンクに該当するページIDを検索する関数s
 async function findPageIdBySlug(databaseId: string, slug: string): Promise<string | null> {
   const posts = await getAllPosts(databaseId);
   const post = posts.find(p => p.slug === slug.toLowerCase());
