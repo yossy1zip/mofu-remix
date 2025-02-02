@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client';
 import {NotionToMarkdown} from "notion-to-md";
 // @ts-ignore
 import NodeCache from 'node-cache';
+import { BasePost, NewsPost, StaticPage, PageInfo } from '~/types/notion';
 const cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });  // 100秒のデフォルトTTL（有効期限）
 
 const notion = new Client({
@@ -11,6 +12,40 @@ const notion = new Client({
 export default notion;
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
+
+import { NotionAPI } from 'notion-client';
+import { ExtendedRecordMap } from 'notion-types';
+
+const notionClient = new NotionAPI({
+  authToken: process.env.NOTION_TOKEN
+});
+
+export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
+  if (!pageId) throw new Error('Page ID is undefined');
+
+  const cacheKey = `page-${pageId}`;
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
+
+  const recordMap = await notionClient.getPage(pageId);
+  cache.set(cacheKey, recordMap);
+  return recordMap;
+}
+
+export async function getDatabase(databaseId: string) {
+  if (!databaseId) throw new Error('Database ID is undefined');
+
+  const cacheKey = `db-${databaseId}`;
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
+
+  const response = await notionClient.getPage(databaseId);
+  cache.set(cacheKey, response);
+  return response;
+}
+
 
 export async function getPageContent(pageId) {
     if (!pageId) {
@@ -28,49 +63,6 @@ export async function getPageContent(pageId) {
     }
 }
 
-export async function getDatabase(databaseId) {
-    return await notion.databases.query({
-        database_id: databaseId || '',
-    });
-}
-
-export async function getAllPosts(databaseId: string) {
-
-    if (!databaseId) {
-        throw new Error('Database ID is undefined');
-    }
-
-    const cacheKey = `posts-${databaseId}`;
-    if (cache.has(cacheKey)) {
-        return cache.get(cacheKey);
-    } else {
-        const response = await notion.databases.query({
-            database_id: databaseId,
-        });
-        const posts = response.results.map((post) => ({
-            id: post.id,
-            title: post.properties.title.title[0]?.plain_text,
-            slug: post.properties.slug?.rich_text[0]?.plain_text,
-            postDate: post.properties.postDate?.date?.start,
-            date: post.properties.date?.date.start,
-            private: post.properties.private?.boolean,
-            newsId: post.properties.newsId?.rich_text[0]?.plain_text,
-            // multi_selectプロパティの取り出し（例：types）
-            //const types = post.properties.types.multi_select.map((item:any) => item.name);
-
-            // filesプロパティの取り出し（例：file）
-            //const files = post.properties.file.files.map((file:any) => file.file.url);
-
-            // peopleプロパティの取り出し（例：author）
-            //const author = post.properties.author.select.name;
-        }));
-        cache.set(cacheKey, posts);
-        return posts;
-    }
-}
-
-import { BasePost, NewsPost, StaticPage, PageInfo } from '~/types/notion';
-
 export async function getPageInfo(pageId: string): Promise<PageInfo> {
     const cacheKey = `info-${pageId}`;
     if (cache.has(cacheKey)) {
@@ -78,16 +70,14 @@ export async function getPageInfo(pageId: string): Promise<PageInfo> {
     } else {
         const page = await notion.pages.retrieve({ page_id: pageId });
         const pageInfo = {
-            title: page.properties.title.title[0]?.plain_text,
-            date: page.properties.date?.date?.start,
+            title: page.properties.title?.title[0]?.plain_text || '',
+            date: page.last_edited_time,
             author: page.properties.author?.select?.name,
         };
         cache.set(cacheKey, pageInfo);
         return pageInfo;
     }
 }
-
-import { NewsPost, StaticPage } from '~/types/notion';
 
 // 日付と時間から6桁のIDを生成（暗号化）
 function generateNewsId(dateStr: string): string {
@@ -194,3 +184,5 @@ export async function getAllPages(databaseId: string): Promise<StaticPage[]> {
   cache.set(cacheKey, pages);
   return pages;
 }
+
+

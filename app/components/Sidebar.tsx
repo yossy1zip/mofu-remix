@@ -10,15 +10,6 @@ const links = [
   { title: 'minecraft.jp', url: '//auth.example.com/reset' }
 ];
 
-interface SidebarData {
-  news: {
-    id: string;
-    title: string;
-    postDate?: string;
-    newsId?: string;
-  }[];
-}
-
 export default function Sidebar() {
   /*const { news } = useLoaderData<SidebarData>();*/
 
@@ -58,11 +49,11 @@ export default function Sidebar() {
       {/* News */}
       <div className="bg-white rounded-lg shadow">
         <h2 className="p-4 font-bold border-b">
-          <Link to="/news" className="hover:text-blue-500 transition-colors">News</Link>
+          <Link to="/news" className="hover:text-blue-500 transition-colors text-decoration-none">News ← 一覧表示</Link>
         </h2>
-        <div className="divide-y divide-gray-100">
-
-        </div>
+        <div className="p-4">
+            準備中
+          </div>
       </div>
 
       {/* Links */}

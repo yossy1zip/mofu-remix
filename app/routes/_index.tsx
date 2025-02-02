@@ -29,8 +29,7 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg",
         isFolder: true,
         items: [
-          { title: "ルール", slug: "/rules", image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg" },
-          { title: "マッポ", slug: "/map", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "どんなサーバー？", slug: "/about", image: "//mofucraft.net/image/link/map.jpg" },
           { title: "スタッフリスト", slug: "/staff", image: "//mofucraft.net/image/link/map.jpg" },
         ]
       },
@@ -52,8 +51,8 @@ const menuSections: MenuSection[] = [
         isFolder: true,
         items: [
           { title: "公式Discord", slug: "/discord", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "お問い合わせ", slug: "/contact", image: "//mofucraft.net/image/link/wolf.jpg" },
           { title: "よくある質問", slug: "/faq", image: "//mofucraft.net/image/link/wolf.jpg" },
+          { title: "お問い合わせ", slug: "/contact", image: "//mofucraft.net/image/link/wolf.jpg" },
         ]
       },
     ]
@@ -69,6 +68,7 @@ const menuSections: MenuSection[] = [
         isFolder: true,
         items: [
           { title: "初めての方へ", slug: "/guide/beginner", image: "//mofucraft.net/image/link/chicken.jpg" },
+          { title: "ルール", slug: "/guide/beginner", image: "//mofucraft.net/image/link/chicken.jpg" },
           { title: "マップ", slug: "/guide/map", image: "//mofucraft.net/image/link/map.jpg" },
           { title: "サーバー独自仕様まとめ", slug: "/guide/features", image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg" },
         ]
@@ -79,13 +79,13 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg",
         isFolder: true,
         items: [
-          { title: "各ワールド", slug: "/intro/worlds", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "各ワールド", slug: "/worlds", image: "//mofucraft.net/image/link/map.jpg" },
           { title: "建築ワールド", slug: "/intro/build", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "村紹介", slug: "/intro/villages", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "コミュニティ制度", slug: "/intro/community", image: "//mofucraft.net/image/link/wolf.jpg" },
+          { title: "村紹介", slug: "/villages", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "コミュニティ制度", slug: "/community", image: "//mofucraft.net/image/link/wolf.jpg" },
           { title: "鉄道と道路", slug: "/intro/transport", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "リソースパック", slug: "/intro/resourcepack", image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg" },
-          { title: "オーダーメイドロケット", slug: "/intro/rocket", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "リソースパック", slug: "/resourcepack", image: "//mofucraft.net/image/link/autumn_lobby_mofulife.jpg" },
+          { title: "オーダーメイドロケット", slug: "/order-made-rocket", image: "//mofucraft.net/image/link/cow.jpg" },
         ]
       },
       {
@@ -94,8 +94,8 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/cow.jpg",
         isFolder: true,
         items: [
-          { title: "保護", slug: "/essential/protection", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "経済", slug: "/essential/economy", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "保護", slug: "/protection", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "経済", slug: "/economy", image: "//mofucraft.net/image/link/cow.jpg" },
           { title: "PvP", slug: "/essential/pvp", image: "//mofucraft.net/image/link/wolf.jpg" },
         ]
       },
@@ -105,10 +105,10 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/map.jpg",
         isFolder: true,
         items: [
-          { title: "死亡チェスト", slug: "/travel/deathchest", image: "//mofucraft.net/image/link/wolf.jpg" },
-          { title: "ペット", slug: "/travel/pets", image: "//mofucraft.net/image/link/wolf.jpg" },
-          { title: "建築の効率化", slug: "/travel/build", image: "//mofucraft.net/image/link/map.jpg" },
-          { title: "スキル", slug: "/travel/skills", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "死亡チェスト", slug: "/deathchest", image: "//mofucraft.net/image/link/wolf.jpg" },
+          { title: "ペット", slug: "/pets", image: "//mofucraft.net/image/link/wolf.jpg" },
+          { title: "建築の効率化", slug: "/build", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "スキル", slug: "/skills", image: "//mofucraft.net/image/link/cow.jpg" },
         ]
       },
       {
@@ -117,11 +117,11 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/cow.jpg",
         isFolder: true,
         items: [
-          { title: "仕事", slug: "/economy/jobs", image: "//mofucraft.net/image/link/cow.jpg" },
-          { title: "ショップ", slug: "/economy/shops", image: "//mofucraft.net/image/link/cow.jpg" },
-          { title: "オークション", slug: "/economy/auction", image: "//mofucraft.net/image/link/cow.jpg" },
-          { title: "株取引", slug: "/economy/stocks", image: "//mofucraft.net/image/link/cow.jpg" },
-          { title: "車・へり", slug: "/economy/vehicles", image: "//mofucraft.net/image/link/map.jpg" },
+          { title: "仕事", slug: "/jobs", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "ショップ", slug: "/shops", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "オークション", slug: "/auction", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "株取引", slug: "/stocks", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "車・へり", slug: "/vehicles", image: "//mofucraft.net/image/link/map.jpg" },
           { title: "仮想株取引", slug: "/economy/crypto", image: "//mofucraft.net/image/link/cow.jpg" },
         ]
       },
@@ -131,10 +131,10 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/lake.jpg",
         isFolder: true,
         items: [
-          { title: "音楽プレイヤー", slug: "/fun/music", image: "//mofucraft.net/image/link/lake.jpg" },
-          { title: "フライト機能", slug: "/fun/flight", image: "//mofucraft.net/image/link/lake.jpg" },
-          { title: "座る・伏せる・寝る", slug: "/fun/emotes", image: "//mofucraft.net/image/link/lake.jpg" },
-          { title: "エレベーター", slug: "/fun/elevator", image: "//mofucraft.net/image/link/lake.jpg" },
+          { title: "音楽プレイヤー", slug: "/music", image: "//mofucraft.net/image/link/lake.jpg" },
+          { title: "フライト機能", slug: "/flight", image: "//mofucraft.net/image/link/lake.jpg" },
+          { title: "座る・伏せる・寝る", slug: "/emotes", image: "//mofucraft.net/image/link/lake.jpg" },
+          { title: "エレベーター", slug: "/elevator", image: "//mofucraft.net/image/link/lake.jpg" },
         ]
       },
       {
@@ -143,9 +143,9 @@ const menuSections: MenuSection[] = [
         image: "//mofucraft.net/image/link/map.jpg",
         isFolder: true,
         items: [
-          { title: "コミュ一覧", slug: "/lists/communities", image: "//mofucraft.net/image/link/wolf.jpg" },
-          { title: "カスタムレシピ一覧", slug: "/lists/recipes", image: "//mofucraft.net/image/link/cow.jpg" },
-          { title: "追加アイテム一覧", slug: "/lists/items", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "コミュ一覧", slug: "/communities-list", image: "//mofucraft.net/image/link/wolf.jpg" },
+          { title: "カスタムレシピ一覧", slug: "/recipes", image: "//mofucraft.net/image/link/cow.jpg" },
+          { title: "追加アイテム一覧", slug: "/items", image: "//mofucraft.net/image/link/cow.jpg" },
         ]
       },
     ]

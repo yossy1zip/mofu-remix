@@ -33,6 +33,8 @@ export default function Page() {
   }>();
   const content = pageContents.map(content => content.parent).join('\n');
 
+  /*const { blocks, pageInfo } = useLoaderData();*/
+
   return (
     <DefaultLayout>
       <div className="bg-white rounded-lg shadow p-6">
@@ -43,9 +45,6 @@ export default function Page() {
             </span>
             <span className="absolute left-0 bottom-0 w-full h-3 bg-blue-100 -z-10 transform -skew-x-12"></span>
           </h1>
-          <time className="text-sm text-gray-600">
-            {pageInfo.date}
-          </time>
         </header>
         <MarkdownContent content={content} />
       </div>

@@ -25,10 +25,9 @@ export default function News() {
         <div className="space-y-4">
           {news.map((item) => (
             <div key={item.id} className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
-              <Link to={`/news/${item.newsId}`} className="text-gray-800 hover:text-gray-600">
+              <Link to={`${item.newsId}`} className="text-gray-800 hover:text-gray-600">
                 <div className="flex justify-between items-center">
                   <small className="text-gray-500">{item.postDate}</small>
-                  {item.author && <small className="text-gray-500">投稿者: {item.author}</small>}
                 </div>
                 <div className="mt-1">{item.title}</div>
               </Link>
